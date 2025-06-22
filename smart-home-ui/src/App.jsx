@@ -4,28 +4,30 @@ import axios from "axios";
 function App() {
   const [deviceId, setDeviceId] = useState("lamp1");
   const [command, setCommand] = useState("ON");
+  const [message, setMessage] = useState("");
 
   const sendCommand = async () => {
     try {
-      await axios.post("http://localhost:8080/api/device/control", {
+      await axios.post("http://" + window.location.hostname + ":8080/api/device/control", {
         device_id: deviceId,
         command: command,
       });
-      alert("Command sent successfully");
+      setMessage("✅ Command sent successfully");
     } catch (err) {
       console.error(err);
-      alert("Failed to send command");
+      setMessage("❌ Failed to send command");
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-6 rounded-2xl shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Smart Home Controller</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+        <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">Smart Home Control</h1>
+
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Select Device:</label>
+          <label className="block mb-1 font-semibold text-gray-700">Device:</label>
           <select
-            className="w-full border rounded-md p-2"
+            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
             value={deviceId}
             onChange={(e) => setDeviceId(e.target.value)}
           >
@@ -35,10 +37,11 @@ function App() {
             <option value="bathroomLight">Bathroom Light</option>
           </select>
         </div>
+
         <div className="mb-4">
-          <label className="block mb-1 font-semibold">Command:</label>
+          <label className="block mb-1 font-semibold text-gray-700">Command:</label>
           <select
-            className="w-full border rounded-md p-2"
+            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
             value={command}
             onChange={(e) => setCommand(e.target.value)}
           >
@@ -46,12 +49,17 @@ function App() {
             <option value="OFF">OFF</option>
           </select>
         </div>
+
         <button
           onClick={sendCommand}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md transition duration-300"
         >
           Send Command
         </button>
+
+        {message && (
+          <p className="text-center mt-4 text-sm font-medium text-gray-700">{message}</p>
+        )}
       </div>
     </div>
   );
