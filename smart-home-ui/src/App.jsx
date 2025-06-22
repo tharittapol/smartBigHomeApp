@@ -7,7 +7,7 @@ function App() {
   const [message, setMessage] = useState("");
 
   // const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
-  const BASE_URL = "https://smartbighomeapp-production.up.railway.app:8080" || "http://localhost:8080";
+  const BASE_URL = "https://smartbighomeapp-production.up.railway.app" || "http://localhost:8080";
   
   const sendCommand = async () => {
     try {
