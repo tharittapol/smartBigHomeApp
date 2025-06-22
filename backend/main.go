@@ -26,7 +26,11 @@ type DeviceCommand struct {
 
 func main() {
 	r := gin.Default()
-	r.Use(cors.Default()) // Enable CORS
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST"},
+		AllowHeaders: []string{"Origin", "Content-Type"},
+	}))
 
 	r.POST("/api/device/control", func(c *gin.Context) {
 		var cmd DeviceCommand

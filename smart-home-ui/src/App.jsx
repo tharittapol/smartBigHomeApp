@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function App() {
-  const [deviceId, setDeviceId] = useState("lamp1");
+  const [deviceId, setDeviceId] = useState("frontRoomLight");
   const [command, setCommand] = useState("ON");
   const [message, setMessage] = useState("");
 
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
   const sendCommand = async () => {
     try {
-      await axios.post("http://" + window.location.hostname + ":8080/api/device/control", {
+      await axios.post(`${BASE_URL}/api/device/control`, {
         device_id: deviceId,
         command: command,
       });
